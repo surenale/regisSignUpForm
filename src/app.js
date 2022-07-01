@@ -60,6 +60,23 @@ app.get("/login", (req, res) => {
     res.render("login");
 })
 
+// login check 
+app.post("/login", async (req, res) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+        const useremail = await Register.findOne({ email: email });
+        if (useremail.password === password) {
+            res.status(201).render("index");
+        }
+        else {
+            res.send("Invalid login details");
+        }
+    } catch (e) {
+        res.status(400).send("Invalid login details");
+    }
+})
+
 
 app.listen(port, () => {
     console.log(`listening to port at ${port}`);
